@@ -7,3 +7,8 @@
 *.toc
 sandbox
 *.vrb
+*.gcda
+*.gcno
+*.edc
+*.plist
+callgrind.out.*

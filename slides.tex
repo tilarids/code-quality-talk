@@ -167,13 +167,13 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{CPD(Copy/Paste detection)}
+\frametitle{CPD}
 \begin{center}
 \includegraphics[width=0.4\textwidth]{img/copy-paste}
 \end{center}
-Improves readability, maintainability, increases code reuse, reduces resources usage. You can download it at \url{http://pmd.sourceforge.net/cpd.html}
+Copy/Paste detection tool. Improves readability, maintainability, increases code reuse, reduces resources usage. You can download it at \url{http://pmd.sourceforge.net/cpd.html}
 \begin{exampleblock}{How to use}
-java net.sourceforge.pmd.cpd.CPD --minimum-tokens 100 --files /path/to/cpp/source --language cpp
+> java net.sourceforge.pmd.cpd.CPD --minimum-tokens 100 --files /path/to/cpp/source --language cpp
 \end{exampleblock}
 \end{frame}
 
@@ -182,17 +182,17 @@ java net.sourceforge.pmd.cpd.CPD --minimum-tokens 100 --files /path/to/cpp/sourc
 I'm serious, it is one of the best tools you can get. Do not underestimate it. Improves correctness and portability.
 \begin{exampleblock}{How to use}
 \begin{verbatim}
-gcc -Wall -ansi -pedantic -c /path/to/source/file.cpp
+> gcc -Wall -ansi -pedantic -c /path/to/source/file.cpp
 \end{verbatim}
 \end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{clang(static analizer)}
-It's a C/C++/ObjC frontend for llvm. Improves correctness and portability. You can get clang at \url{http://clang.llvm.org/}
+C/C++/ObjC frontend for llvm with static analyzer. Improves correctness and portability. You can get clang at \url{http://clang.llvm.org/}
 \begin{exampleblock}{How to use}
 \begin{verbatim}
-clang --analyze /path/to/source/file.cpp
+> clang --analyze /path/to/source/file.cpp
 \end{verbatim} 
 \end{exampleblock}
 \end{frame}
@@ -239,13 +239,14 @@ Improves correctness, efficiency. You can get valgrind at \url{http://valgrind.o
 
 \begin{frame}[fragile]
 \frametitle{Valgrind. Memcheck}
+Memory-management problems detector
 \begin{exampleblock}{Usage}
 \begin{verbatim}
-valgrind --tool=memcheck /path/to/binary
+> valgrind --tool=memcheck /path/to/binary
 \end{verbatim}
 or
 \begin{verbatim}
-valgrind --leak-check=full /path/to/binary
+> valgrind --leak-check=full /path/to/binary
 \end{verbatim}
 \end{exampleblock}
 \end{frame}
@@ -317,8 +318,190 @@ valgrind --leak-check=full /path/to/binary
 \end{exampleblock}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Valgrind. Cachegrind and callgrind}
+These tools can be used to build callgraphs and profile your program.
+\begin{exampleblock}{Usage}
+\begin{verbatim}
+> valgrind --tool=callgrind /path/to/binary
+\end{verbatim}
+and
+\begin{verbatim}
+> callgrind_annotate [callgrind-out-file [source-files...]]
+\end{verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{exampleblock}{Result (for clang-test.cpp)}
+\begin{Verbatim}[fontsize=\footnotesize]
+Ir 
+
+ .  #include <stdio.h>
+ .  
+ .  int main(int argc, char** argv)
+ 4  {
+ .      char* fileName; // not initialized!
+ 2      if (2 == argc)
+ .      {
+ .          fileName = argv[1];
+ .      }
+ .      // using fileName
+ 5      FILE* f = fopen(fileName, "r");
+2,082  => ???:_dl_runtime_resolve (1x)
+75,972  => ???:fopen (1x)
+ 3      fclose(f);
+10  => ???:fclose (1x)
+1,124  => ???:_dl_runtime_resolve (1x)
+ .  }
+\end{Verbatim}
+\end{exampleblock}
+\end{frame}
+
+
 \begin{frame}
+\frametitle{Valgrind. Iogrind, Massif and Helgrind}
+Valgrind has a lot of tools, but full review of them will take too much time. So, you can check:
+\begin{itemize}
+\item Iogrind~--- I/O profiler
+\item Massif~--- heap profiles
+\item Helgrind~--- data race conditions detector(in threads)
+\item ... (and so on. \url{http://valgrind.org} is your friend)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
 \frametitle{cppcheck}
+Static analysis tool. Improves correctness, readability, efficiency. You can get it at \url{http://cppcheck.sourceforge.net/}
+\begin{exampleblock}{cppcheck-test.cpp}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kt}{int} \PY{n}{main}\PY{p}{(}\PY{p}{)}
+\PY{p}{\PYZob{}}
+    \PY{k+kt}{int} \PY{n}{values}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}} \PY{l+m+mi}{0} \PY{p}{\PYZcb{}}\PY{p}{;}
+    \PY{n}{values}\PY{p}{[}\PY{l+m+mi}{16}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{16}\PY{p}{;}
+\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{exampleblock}
+\begin{exampleblock}{How to use}
+\begin{Verbatim}[fontsize=\small]
+> cppcheck --enable=all
+[cppcheck-test.cpp:3]: (style) Variable 'values' is assigned a 
+                               value that is never used
+[cppcheck-test.cpp:4]: (error) Array 'values[10]' index 16 
+                               out of bounds
+\end{Verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{EDoc++}
+\begin{center}
+\includegraphics[width=0.45\textwidth]{img/exception}
+\end{center}
+Exception problems detector. Improves correctness. You can get it at \url{http://edoc.sourceforge.net/}
+\begin{exampleblock}{How to use}
+\begin{verbatim}
+> start_edoc.sh
+> g++ -fedoc-source -c /path/to/source.cpp
+> edoc --show-all --format simple /path/to/source.cpp.edc
+\end{verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{exampleblock}{edoc-test.cpp}
+\begin{Verbatim}[fontsize=\footnotesize,commandchars=\\\{\}]
+\PY{c+cp}{\PYZsh{}}\PY{c+cp}{include <iostream>}
+\PY{k}{class} \PY{n+nc}{C1}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{;}
+\PY{k}{class} \PY{n+nc}{C2}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{;}
+
+\PY{k+kt}{void} \PY{n}{foo}\PY{p}{(}\PY{p}{)} \PY{k}{throw} \PY{p}{(}\PY{n}{C1}\PY{p}{)}
+\PY{p}{\PYZob{}}
+    \PY{k}{throw} \PY{n}{C2}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\PY{p}{\PYZcb{}}
+    
+\PY{k}{class} \PY{n+nc}{C}
+\PY{p}{\PYZob{}}
+\PY{k}{public}\PY{o}{:}
+    \PY{o}{\PYZti{}}\PY{n}{C}\PY{p}{(}\PY{p}{)}
+    \PY{p}{\PYZob{}}
+        \PY{n}{foo}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+    \PY{p}{\PYZcb{}}
+\PY{p}{\PYZcb{}}\PY{p}{;}
+
+\PY{k+kt}{int} \PY{n}{main}\PY{p}{(}\PY{p}{)} \PY{p}{\PYZob{}} \PY{n}{C} \PY{n}{c}\PY{p}{;} \PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{exampleblock}{Result}
+\begin{Verbatim}[fontsize=\footnotesize]
+ERROR(ECRASH_SPEC): Exception may propogate through restrictive specifier:
+                    The function: foo() can throw an exception of type: 
+                    C2 that is not allowed by its specifier list: 
+                    throws(C1)
+\end{Verbatim}
+\end{exampleblock}
+\begin{exampleblock}{After changing throw (C1) to throw (C2)}
+\begin{Verbatim}[fontsize=\footnotesize]
+ERROR(EMAIN_EXC): An exception may propogate out the main function. :
+                  The exception: 
+                  C2 may propagate out the main function which may 
+                  cause a program abort.
+
+WARNING(WDESTR_EXC): An exception may propogate through a destructor. :
+                     Destructor: C::~C(), Exception: C2
+\end{Verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\begin{block}{\begin{center}\Large\textbf{How to measure and improve source code quality}\end{center}}
+\begin{center}
+\textbf{Part 2. Tests}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Unit and functional tests}
+Unit and functional tests improve correctness, maintainability, readability and portability. Use them! Some of the unit test frameworks:
+\begin{itemize}
+\item CxxTest~--- \url{http://cxxtest.tigris.org/}
+\item Google C++ Testing Framework~--- \url{http://code.google.com/p/googletest/}
+\item Boost Test Library~--- \url{http://www.boost.org/doc/libs/1_42_0/libs/test/doc/html/index.html}
+\item QtTest~--- \url{http://doc.qt.nokia.com/latest/qtestlib-tutorial.html}
+\item CppUnit~--- \url{http://cppunit.sourceforge.net}
+\item TUT~--- \url{http://tut-framework.sourceforge.net/}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Tests coverage: GCOV and gcovr}
+Just writing tests is not cool enough. Try coverage! It helps with correctness.
+\begin{exampleblock}{To use GCOV you should compile with additional flags}
+\begin{Verbatim}[fontsize=\small]
+> gcc -fprofile-arcs -ftest-coverage /path/to/source.cpp
+\end{Verbatim}
+\end{exampleblock}
+Then you should run your software/tests and then you can use gcovr(\url{https://software.sandia.gov/trac/fast/wiki/gcovr}) to analyze the results:
+\begin{exampleblock}{Results for cppcheck-test.cpp}
+\begin{Verbatim}[fontsize=\small]
+----------------------------------------------------------
+File                        Lines    Exec  Cover   Missing
+----------------------------------------------------------
+/path/to/cppcheck-test.cpp      3       3   100%   
+----------------------------------------------------------
+TOTAL                           3       3   100%
+----------------------------------------------------------
+\end{Verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{Tests coverage: LCOV}
+You can use LCOV to generate cool HTML reports on coverage
 \begin{exampleblock}{How to use}
 \end{exampleblock}
 \end{frame}
@@ -330,7 +513,7 @@ valgrind --leak-check=full /path/to/binary
 \end{frame}
 
 \begin{frame}
-\frametitle{yasca}
+\frametitle{frama-c}
 \begin{exampleblock}{How to use}
 \end{exampleblock}
 \end{frame}
@@ -338,7 +521,7 @@ valgrind --leak-check=full /path/to/binary
 \begin{frame}
 \begin{block}{\begin{center}\Large\textbf{How to measure and improve source code quality}\end{center}}
 \begin{center}
-\textbf{Part 2. General ideas}
+\textbf{Part 3. General ideas}
 \end{center}
 \end{block}
 \end{frame}
@@ -346,24 +529,6 @@ valgrind --leak-check=full /path/to/binary
 \begin{frame}
 \frametitle{Code review}
 Improves correctness, readability, maintainability
-\begin{exampleblock}{How to use}
-\end{exampleblock}
-\end{frame}
-
-\begin{frame}
-\frametitle{Unit and functional tests}
-\begin{exampleblock}{How to use}
-\end{exampleblock}
-\end{frame}
-
-\begin{frame}
-\frametitle{Tests coverage}
-\begin{exampleblock}{How to use}
-\end{exampleblock}
-\end{frame}
-
-\begin{frame}
-\frametitle{frama-c}
 \begin{exampleblock}{How to use}
 \end{exampleblock}
 \end{frame}
