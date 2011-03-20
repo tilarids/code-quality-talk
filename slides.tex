@@ -499,16 +499,52 @@ TOTAL                           3       3   100%
 \end{exampleblock}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Tests coverage: LCOV}
 You can use LCOV to generate cool HTML reports on coverage
 \begin{exampleblock}{How to use}
+\begin{verbatim}
+> lcov --directory /path/to/source/dir --zerocounters
+> lcov --directory /path/to/source/dir --capture \
+       --output-file app.info
+> genhtml app.info
+\end{verbatim}
 \end{exampleblock}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{avalanche}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{img/cool-dog}
+\end{center}
+Generates "extreme" test data. 
 \begin{exampleblock}{How to use}
+\begin{verbatim}
+> avalanche --filename=/path/to/seed /path/to/binary \
+            /path/to/seed
+\end{verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{exampleblock}{avalanche-test.cpp}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+cp}{\PYZsh{}}\PY{c+cp}{include <stdio.h>}
+
+\PY{k+kt}{int} \PY{n+nf}{main}\PY{p}{(}\PY{k+kt}{int} \PY{n}{argc}\PY{p}{,} \PY{k+kt}{char}\PY{o}{*}\PY{o}{*} \PY{n}{argv}\PY{p}{)}
+\PY{p}{\PYZob{}}
+    \PY{k+kt}{char} \PY{n}{input}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{;}
+    \PY{k+kt}{FILE}\PY{o}{*}  \PY{n}{fd1} \PY{o}{=} \PY{n}{fopen}\PY{p}{(}\PY{n}{argv}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s}{"}\PY{l+s}{r}\PY{l+s}{"}\PY{p}{)}\PY{p}{;}
+    \PY{n}{fread}\PY{p}{(}\PY{n}{input}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{n}{fd1}\PY{p}{)}\PY{p}{;}
+    \PY{k}{if} \PY{p}{(}\PY{o}{!}\PY{n}{strncmp}\PY{p}{(}\PY{n}{input}\PY{p}{,}\PY{l+s}{"}\PY{l+s}{bad!}\PY{l+s}{"}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)} \PY{n}{abort}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+    \PY{n}{fclose}\PY{p}{(}\PY{n}{fd1}\PY{p}{)}\PY{p}{;}
+\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{exampleblock}
+\begin{exampleblock}{Generated exploit\_0\_0 file}
+\begin{verbatim}
+bad!
+\end{verbatim}
 \end{exampleblock}
 \end{frame}
 
@@ -519,30 +555,19 @@ You can use LCOV to generate cool HTML reports on coverage
 \end{frame}
 
 \begin{frame}
-\begin{block}{\begin{center}\Large\textbf{How to measure and improve source code quality}\end{center}}
+\frametitle{General ideas}
+\begin{itemize}
+\item Code review. Improves correctness, readability, maintainability 
+\item Continuous integration and automatic build/test/analyze systems
+\item Source code documentation. Improves readability. Check out doxygen(\url{http://www.stack.nl/~dimitri/doxygen/})~--- it's cross-platform and easy to use 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Thank you! Questions?}
 \begin{center}
-\textbf{Part 3. General ideas}
+\includegraphics[width=0.45\textwidth]{img/chubaka}
 \end{center}
-\end{block}
-\end{frame}
-
-\begin{frame}
-\frametitle{Code review}
-Improves correctness, readability, maintainability
-\begin{exampleblock}{How to use}
-\end{exampleblock}
-\end{frame}
-
-\begin{frame}
-\frametitle{Continuous integration}
-\begin{exampleblock}{How to use}
-\end{exampleblock}
-\end{frame}
-
-\begin{frame}
-\frametitle{doxygen}
-\begin{exampleblock}{How to use}
-\end{exampleblock}
 \end{frame}
 
 \end{document}
