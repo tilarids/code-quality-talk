@@ -1,17 +1,25 @@
-static const int intervalSize = 100;
-int get_text_width(char* text, int fontSize)
+# pragma SeparationPolicy(none)
+
+/*@
+   requires \valid(p);
+   requires \valid(q);
+
+
+   assigns *p;
+   assigns *q;
+
+   ensures *p == \old(*q);
+   ensures *q == \old(*p);
+*/
+void swap(int* p, int* q)
 {
-    int result = 0;
-    while(*text)
-    {
-        result += fontSize + intervalSize;
-        ++text;
-    }
-    return result - intervalSize;
+  int const save = *p;
+  *p = *q;
+  *q = save;
 }
 
-int main(int argc, char** argv)
-{
-    get_text_width("test", 16000);
-    return 0;
+int main () {
+  int p[2] = { 0,1};
+  int *q = (int *)((char*)q+1);
+  swap(p,q);
 }
