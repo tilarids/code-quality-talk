@@ -94,7 +94,7 @@
 
 \title{(Non) Comprehensive Guide to C/C++ Source Code Quality} 
 \author{Sergey Kishchenko} 
-\date{March 25th, 2011} 
+\date{April 1st, 2011} 
 \usetheme{CambridgeUS}
 \usecolortheme{seagull}
 \institute{Quickoffice}
@@ -123,7 +123,9 @@
 \item Conformance to the specification
 \item Completeness
 \item Product documentation
+\item Usability
 \item \textbf{Source code quality}
+\item ...
 \end{itemize}
 \end{frame}
 
@@ -367,7 +369,7 @@ Ir
 Valgrind has a lot of tools, but full review of them will take too much time. So, you can check:
 \begin{itemize}
 \item Iogrind~--- I/O profiler
-\item Massif~--- heap profiles
+\item Massif~--- heap profiler
 \item Helgrind~--- data race conditions detector(in threads)
 \item ... (and so on. \url{http://valgrind.org} is your friend)
 \end{itemize}
@@ -387,7 +389,7 @@ Static analysis tool. Improves correctness, readability, efficiency. You can get
 \end{exampleblock}
 \begin{exampleblock}{How to use}
 \begin{Verbatim}[fontsize=\small]
-> cppcheck --enable=all
+> cppcheck --enable=all cppcheck-test.cpp
 [cppcheck-test.cpp:3]: (style) Variable 'values' is assigned a 
                                value that is never used
 [cppcheck-test.cpp:4]: (error) Array 'values[10]' index 16 
@@ -507,7 +509,7 @@ TOTAL                           3       3   100%
 
 \begin{frame}[fragile]
 \frametitle{Tests coverage: LCOV}
-You can use LCOV to generate cool HTML reports on coverage
+You can use LCOV to generate cool HTML reports on coverage. You can get LCOV at \url{http://ltp.sourceforge.net/coverage/lcov.php}
 \begin{exampleblock}{How to use}
 \begin{verbatim}
 > lcov --directory /path/to/source/dir --zerocounters
@@ -523,7 +525,7 @@ You can use LCOV to generate cool HTML reports on coverage
 \begin{center}
 \includegraphics[width=0.5\textwidth]{img/cool-dog}
 \end{center}
-Generates "extreme" test data. 
+Generates "extreme" test data. You can get it at \url{http://code.google.com/p/avalanche/}
 \begin{exampleblock}{How to use}
 \begin{verbatim}
 > avalanche --filename=/path/to/seed /path/to/binary \
