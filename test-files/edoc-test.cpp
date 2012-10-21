@@ -6,7 +6,7 @@ void foo() throw (C1)
 {
     throw C2();
 }
-    
+
 class C
 {
 public:

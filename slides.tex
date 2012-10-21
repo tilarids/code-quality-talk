@@ -1,4 +1,4 @@
-\documentclass{beamer} 
+\documentclass{beamer}
 \usepackage{multicol}
 \usepackage{url}
 \usepackage{fancyvrb}
@@ -92,16 +92,16 @@
 \makeatother
 
 
-\title{(Non) Comprehensive Guide to C/C++ Source Code Quality} 
-\author{Sergey Kishchenko} 
-\date{April 1st, 2011} 
+\title{(Non) Comprehensive Guide to C/C++ Source Code Quality}
+\author{Sergey Kishchenko}
+\date{April 1st, 2011}
 \usetheme{CambridgeUS}
 \usecolortheme{seagull}
 \institute{Quickoffice}
 \begin{document}
 
 \frame{\titlepage}
-\begin{frame} 
+\begin{frame}
 \frametitle{Product quality and source code quality}
 \begin{multicols}{2}
 \center{Source code}
@@ -115,7 +115,7 @@
 \begin{center}
 \textbf{You can't make a good quality product with bad quality blueprint!}
 \end{center}
-\end{frame} 
+\end{frame}
 
 \begin{frame}
 \frametitle{Software product quality}
@@ -198,7 +198,7 @@ C/C++/ObjC frontend for llvm with static analyzer. Improves correctness and port
 \begin{exampleblock}{How to use}
 \begin{verbatim}
 > clang --analyze /path/to/source/file.cpp
-\end{verbatim} 
+\end{verbatim}
 \end{exampleblock}
 \end{frame}
 
@@ -225,7 +225,7 @@ C/C++/ObjC frontend for llvm with static analyzer. Improves correctness and port
 \begin{frame}[fragile]
 \begin{exampleblock}{Result}
 \begin{Verbatim}
-clang-test.cpp:11:15: warning: Pass-by-value argument in 
+clang-test.cpp:11:15: warning: Pass-by-value argument in
       function call is undefined
     FILE* f = fopen(fileName, "r");
               ^     ~~~~~~~~
@@ -307,12 +307,12 @@ or
 ==8076== HEAP SUMMARY:
 ==8076==     in use at exit: 4,096 bytes in 1 blocks
 ==8076==   total heap usage: 3 allocs, 2 frees, 4,263 bytes allocated
-==8076== 
+==8076==
 ==8076== 4,096 bytes in 1 blocks are definitely lost in loss record 1 of 1
 ==8076==    at 0x4025F0F: operator new[](unsigned int) (in /usr/lib/...)
 ==8076==    by 0x8048B55: foo() (memcheck-test.cpp:14)
 ==8076==    by 0x8048B8D: main (memcheck-test.cpp:24)
-==8076== 
+==8076==
 ==8076== LEAK SUMMARY:
 ==8076==    definitely lost: 4,096 bytes in 1 blocks
 ==8076==    indirectly lost: 0 bytes in 0 blocks
@@ -340,10 +340,10 @@ and
 \begin{frame}[fragile]
 \begin{exampleblock}{Result (for clang-test.cpp)}
 \begin{Verbatim}[fontsize=\footnotesize]
-Ir 
+Ir
 
  .  #include <stdio.h>
- .  
+ .
  .  int main(int argc, char** argv)
  4  {
  .      char* fileName; // not initialized!
@@ -390,9 +390,9 @@ Static analysis tool. Improves correctness, readability, efficiency. You can get
 \begin{exampleblock}{How to use}
 \begin{Verbatim}[fontsize=\small]
 > cppcheck --enable=all cppcheck-test.cpp
-[cppcheck-test.cpp:3]: (style) Variable 'values' is assigned a 
+[cppcheck-test.cpp:3]: (style) Variable 'values' is assigned a
                                value that is never used
-[cppcheck-test.cpp:4]: (error) Array 'values[10]' index 16 
+[cppcheck-test.cpp:4]: (error) Array 'values[10]' index 16
                                out of bounds
 \end{Verbatim}
 \end{exampleblock}
@@ -424,7 +424,7 @@ Exception problems detector. Improves correctness. You can get it at \url{http:/
 \PY{p}{\PYZob{}}
     \PY{k}{throw} \PY{n}{C2}\PY{p}{(}\PY{p}{)}\PY{p}{;}
 \PY{p}{\PYZcb{}}
-    
+
 \PY{k}{class} \PY{n+nc}{C}
 \PY{p}{\PYZob{}}
 \PY{k}{public}\PY{o}{:}
@@ -443,16 +443,16 @@ Exception problems detector. Improves correctness. You can get it at \url{http:/
 \begin{exampleblock}{Result}
 \begin{Verbatim}[fontsize=\footnotesize]
 ERROR(ECRASH_SPEC): Exception may propogate through restrictive specifier:
-                    The function: foo() can throw an exception of type: 
-                    C2 that is not allowed by its specifier list: 
+                    The function: foo() can throw an exception of type:
+                    C2 that is not allowed by its specifier list:
                     throws(C1)
 \end{Verbatim}
 \end{exampleblock}
 \begin{exampleblock}{After changing throw (C1) to throw (C2)}
 \begin{Verbatim}[fontsize=\footnotesize]
 ERROR(EMAIN_EXC): An exception may propogate out the main function. :
-                  The exception: 
-                  C2 may propagate out the main function which may 
+                  The exception:
+                  C2 may propagate out the main function which may
                   cause a program abort.
 
 WARNING(WDESTR_EXC): An exception may propogate through a destructor. :
@@ -499,7 +499,7 @@ Then you should run your software/tests and then you can use gcovr(\url{https://
 ----------------------------------------------------------
 File                        Lines    Exec  Cover   Missing
 ----------------------------------------------------------
-/path/to/cppcheck-test.cpp      3       3   100%   
+/path/to/cppcheck-test.cpp      3       3   100%
 ----------------------------------------------------------
 TOTAL                           3       3   100%
 ----------------------------------------------------------
@@ -614,9 +614,9 @@ Talk about code quality cannot be complete without mentioning correctness prover
 \begin{frame}
 \frametitle{General ideas}
 \begin{itemize}
-\item Code review. Improves correctness, readability, maintainability 
+\item Code review. Improves correctness, readability, maintainability
 \item Continuous integration and automatic build/test/analyze systems
-\item Source code documentation. Improves readability. Check out doxygen(\url{http://www.stack.nl/~dimitri/doxygen/})~--- it's cross-platform and easy to use 
+\item Source code documentation. Improves readability. Check out doxygen(\url{http://www.stack.nl/~dimitri/doxygen/})~--- it's cross-platform and easy to use
 \end{itemize}
 \end{frame}
 
